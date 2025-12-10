@@ -1,26 +1,23 @@
-'use client'; // Mark this as a Client Component
+'use client';
 
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
 import { RootState } from '../store/store';
-import UpdateButton from '../components/UpdateButton';
 
 const HomePage: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.user);
+  const router = useRouter();
 
-  return (
-    <div>
-      {user ? (
-        <>
-          <h1>Welcome, {user.email}</h1>
-          <UpdateButton />
-        </>
-      ) : (
-        <p>Please log in to update data.</p>
-      )}
-    </div>
-  );
+  useEffect(() => {
+    if (user) {
+      router.push('/dashboard');
+    } else {
+      router.push('/login');
+    }
+  }, [user, router]);
+
+  return null;
 };
 
 export default HomePage;
